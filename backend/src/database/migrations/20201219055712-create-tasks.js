@@ -18,6 +18,11 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      completed: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -26,6 +31,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      finished_at: {
+          type: Sequelize.DATE,
+          allowNull: false,
+      }
     });
   },
 
