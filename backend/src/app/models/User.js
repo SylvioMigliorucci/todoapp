@@ -21,10 +21,19 @@ class User extends Model {
     });
 
     return this;
+    
   }
 
   checkPassword(password_hash) {
     return bcrypt.compare(password_hash, this.password_hash);
+  }
+
+  
+  static associate(models) {
+    this.hasMany(models.Project, {
+      as: 'user_projects',
+      foreignKey: 'user_id',
+    });
   }
 }
 

@@ -2,7 +2,10 @@ import UserService from '../services/UserService';
 
 class UserController {
     async index(req, res) {
-        // GET
+        const {email, password } = req.body;
+        const result = await UserService.LoginUser.run({email, password})
+
+        res.json(result);
     }
 
     async store(req, res) {
