@@ -13,7 +13,8 @@ global.__rootProject = path.resolve(__dirname, '..');
 class App {
   constructor() {
     this.server = express();
-
+    this.server.use(express.json());
+    this.server.use(express.urlencoded());
     this.middlewares();
     this.routes();
     this.exceptionHandler();
@@ -24,6 +25,7 @@ class App {
   }
 
   routes() {
+
     this.server.use(routes);
   }
 
