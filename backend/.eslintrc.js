@@ -14,6 +14,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-underscore-dangle': 'off',
     'class-methods-use-this': 'off',
+    // eslint-disable-next-line no-dupe-keys
     'no-underscore-dangle': 'off',
     'no-param-reassign': 'off',
     camelcase: 'off',

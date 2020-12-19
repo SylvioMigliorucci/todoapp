@@ -5,6 +5,15 @@
   "repository": "https://github.com/SylvioMigliorucci/challenge.git",
   "author": "sylvio <sylvio.migliorucci@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node dist/server.js",
+    "build": "sucrase ./src -d ./dist --transforms imports",
+    "dev": "cross-env NODE_ENV=development nodemon src/server.js",
+    "dev:debug": "cross-env NODE_ENV=development nodemon --inspect src/server.js",
+    "test": "cross-env NODE_ENV=test jest",
+    "lint": "eslint --ext .js src",
+    "lint:fix": "eslint --ext .js --fix src"
+  },
   "devDependencies": {
     "@sucrase/jest-plugin": "^2.0.0",
     "eslint": "^7.3.1",
