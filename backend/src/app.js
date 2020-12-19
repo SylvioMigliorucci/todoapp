@@ -45,7 +45,7 @@ class App {
           .json({ error: errorMessage, developmentError: errors });
       }
 
-      if (err instanceof Error) {
+      if (err instanceof ServiceError) {
         return res.status(err.status).json({ error: errorMessage });
       }
       return res.status(500).json({ error: errorMessage });
