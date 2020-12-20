@@ -14,6 +14,18 @@ class Project extends Model {
 
     return this;
   }
+  
+  static associate(models) {
+    this.hasMany(models.Task, {
+      as: 'project_tasks',
+      foreignKey: 'project_id',
+    });
+
+    this.belongsTo(models.User, {
+      as: 'user',
+      foreignKey: 'user_id',
+    });
+  }
 }
 
 export default Project;
