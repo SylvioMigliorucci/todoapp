@@ -7,11 +7,8 @@ class LoginUser {
         
         const user = await User.findOne({where : {email}});
   
-        if (!user)
-          throw new ServiceError(401, 'Alguma das informações de credenciais estão incorretas');
-        
-        if (!(await user.checkPassword(password)))
-          throw new ServiceError(401, 'Alguma das informações de credenciais estão incorretas');
+        if (!(await user.checkPassword(password)) || !user)
+          throw new ServiceError(401, 'Your email or password is incorrect');
 
         return {token: jwt.sign({
           user_id: user.id,
