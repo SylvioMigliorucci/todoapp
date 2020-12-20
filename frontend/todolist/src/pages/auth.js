@@ -1,12 +1,17 @@
 import Head from 'next/head'
-import Input from '../components/Input'
+import AuthForm from '../components/AuthForm'
 import styles from '../styles/Home.module.css'
+import {Context} from '../store'
+import Link from 'next/link'
 
-export default function Auth() {
+export default function auth() {
   return (
-  <>
-    <h1>Hello </h1>
-    <Input></Input>
-  </>
+    <>
+      <h1>Login</h1>
+      <AuthForm></AuthForm>
+      {/* <h2>{Context}</h2> */}
+      <Link href="/">Index</Link>
+    </>
   )
+  
 }
