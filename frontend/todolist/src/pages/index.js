@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      {isUserLogged || (<> <AuthForm></AuthForm> <Link href='/projects'>Projecst</Link> </> ) }
+      {isUserLogged || (<> <AuthForm isRegister={false} buttonFormText={"Sign In"}></AuthForm> </>)}
       
       
     </>

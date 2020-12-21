@@ -5,8 +5,9 @@ import axios from 'axios'
 import { UserContext } from "../../store/UserContext";
 import { useRouter } from 'next/router'
 import apiInstance from '../../services/api'
+import * as S from './styles'
 
-export default function AuthForm() {
+export default function AuthForm({isRegister = false, buttonFormText="Sign In"}) {
   const { register, handleSubmit, watch, errors } = useForm();
   const { user, setUser } = useContext(UserContext);
   const router = useRouter()
@@ -26,19 +27,38 @@ export default function AuthForm() {
       });
   };
   
+  const onRegister = data => {
+    console.log(data)
+    apiInstance.post('/signin', { email: data.email, password: data.password, name:data.name })
+      .then(function (response) {
+        router.push('/')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   return (
     <>  
-      <form onSubmit={handleSubmit(onSubmit)}>
-      
-        <input name="email"  type="email" placeholder="Email" ref={register({ required: true })} />
-        {errors.email && <span>This field is required</span>}
-        
-        <input name="password" type="password" placeholder="password" ref={register({ required: true })} />
-        {errors.password && <span>This field is required</span>}
-        
-        <input type="submit" />
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-      </form>
+      <S.Container>
+        <form onSubmit={handleSubmit(!isRegister ? onSubmit : onRegister)}>
+
+          {!isRegister || (
+          <>
+            <S.InputForm name="name"  type="text" placeholder="Name" ref={register({ required: true })} />
+            {errors.email && <span>This field is required</span>}
+          </>
+          )}
+
+          <S.InputForm name="email"  type="email" placeholder="Email" ref={register({ required: true })} />
+          {errors.email && <span>This field is required</span>}
+          
+          <S.InputForm name="password" type="password" placeholder="Password" ref={register({ required: true })} />
+          {errors.password && <span>This field is required</span>}
+          
+          <S.InputForm type="submit" value={buttonFormText}/>
+          
+        </form>
+      </S.Container>
     </>
   );
 }

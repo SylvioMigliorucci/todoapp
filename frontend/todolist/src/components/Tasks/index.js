@@ -4,11 +4,12 @@ import { UserContext } from '../../store/UserContext';
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import apiInstance from '../../services/api';
-// import { Container } from './styles';
+
 import * as S from './styles'
 import ReactTooltip from 'react-tooltip';
 import Swal from 'sweetalert2'
 import { format } from 'date-fns'
+import {FiTrash2, FiEdit} from 'react-icons/fi'
 
 function Tasks({project_id}) {
   const { register, handleSubmit, watch, errors } = useForm();
@@ -76,7 +77,7 @@ function Tasks({project_id}) {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Changed project name',
+          title: 'Changed task name',
           showConfirmButton: false,
           timer: 1500
         })
@@ -124,10 +125,10 @@ function Tasks({project_id}) {
     <div>
      <form onSubmit={handleSubmit(onSubmit)}>
       
-      <input name="description"  type="text" placeholder="New task" ref={register({ required: true })} />
+      <S.InputForm name="description"  type="text" placeholder="New task" ref={register({ required: true })} />
       {errors.email && <span>This field is required</span>}
       
-      <input type="submit" value="New Task"/>
+      <S.InputSubmit type="submit" value="New Task"/>
   
     </form>
     </div>
@@ -137,21 +138,21 @@ function Tasks({project_id}) {
             <>
             <S.TaskCheckItem id={task.id} >
               <ReactTooltip id="registerTip" place="top" effect="solid">
-               {format(new Date(task.finished_at), 'dd/MM/yyyy HH:mm') || ''}
+                {format(new Date(task.finished_at), 'dd/MM/yyyy HH:mm') || ''}
               </ReactTooltip>
-              {task.completed ? (
-                 <>
-                   <label style={{textDecoration: "line-through"}} data-tip data-for="registerTip" onClick={(e) => completeTask({task_id: task.id, completed: !task.completed})}>{task.description} </label>
-                   <label>{format(new Date(task.finished_at), 'dd/MM/yyyy HH:mm:ss')}</label>
+              <S.TaskDescription>
+                {task.completed ? (
+                  <>
+                    < label style={{textDecoration: "line-through"}} data-tip data-for="registerTip" onClick={(e) => completeTask({task_id: task.id, completed: !task.completed})}>{task.description} </label>
                   </>
                   ) 
-                 : (<label style={{textDecoration: "none"}} data-tip data-for="registerTip" onClick={(e) => completeTask({task_id: task.id, completed: !task.completed})}>{task.description} </label>)}
-              
-              
-              <button onClick={() => onDelete(task.id)}>Delete</button>
-              <button onClick={() => onUpdate({task_id: task.id, description: task.description })}>Update</button>
-
+                  : (<label style={{textDecoration: "none"}} data-tip data-for="registerTip" onClick={(e) => completeTask({task_id: task.id, completed: !task.completed})}>{task.description} </label>)}
+                <FiTrash2 onClick={() => onDelete(task.id)} />
+                {task.completed || <FiEdit onClick={() => onUpdate({task_id: task.id, description: task.description })}>Update</FiEdit>}
+                 {!task.completed || <S.Tooltip>{format(new Date(task.finished_at), 'dd/MM/yyyy HH:mm:ss')}</S.Tooltip>}
+              </S.TaskDescription>
             </S.TaskCheckItem>
+            <S.TaskDescriptionLine></S.TaskDescriptionLine>
 
             </>
           )

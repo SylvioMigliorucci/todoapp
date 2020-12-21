@@ -6,8 +6,10 @@ import { useForm } from "react-hook-form";
 import { useRouter } from 'next/router';
 import Tasks from '../Tasks';
 import apiInstance from '../../services/api'
-import {Container, Projects, ProjectItem} from './styles'
+import * as S from './styles'
 import Swal from 'sweetalert2'
+import {FiTrash2, FiEdit} from 'react-icons/fi'
+
 
 function ProjectsList() {
   const { register, handleSubmit, watch, errors } = useForm();
@@ -110,47 +112,37 @@ function ProjectsList() {
   },[])
   return (
     <> 
-     <Container>
+     <S.Container>
       <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         
-        <input name="name"  type="text" placeholder="Project Name" ref={register({ required: true })} />
+        <S.InputForm name="name"  type="text" placeholder="Project Name" ref={register({ required: true })} />
         {errors.email && <span>This field is required</span>}
         
-        <input type="submit" value="New Project"/>
+        <S.InputSubmit type="submit" value="New Project"/>
     
       </form>
       </div>
 
-      <Projects>
+      <S.Projects>
           {projects.map((project) => {
             return (
               <>
-              <ProjectItem>
+              <S.ProjectItem>
                 <div id={project.id}>
-                  {!isUpdate ? (<p>{project.name}</p>) : (
-                     <div>
-                     <form onSubmit={handleSubmit(onUpdate)} id={project.id}>
-                       <input name="project_id" type="number" readOnly={true} value={project.id} hidden/>
-                       <input name="name"  type="text" placeholder="Project Name" ref={register({ required: true })} />
-                       {errors.email && <span>This field is required</span>}
-                       
-                       <input type="submit" value="New Project"/>
-                   
-                     </form>
-                     </div>
-                  ) }  
+                  <S.ProjectTitle>{project.name}
+                  <FiTrash2 onClick={() => onDelete(project.id)}>Delete</FiTrash2>
+                  <FiEdit onClick={() => onUpdate({project_id: project.id, name: project.name })}>Update</FiEdit>
+                  <S.ProjectTitleLine /></S.ProjectTitle>
                   <Tasks project_id={project.id}></Tasks>
-                  <button onClick={() => onDelete(project.id)}>Delete</button>
-                  <button onClick={() => onUpdate({project_id: project.id, name: project.name })}>Update</button>
-
+                     
                 </div>
-              </ProjectItem>
+              </S.ProjectItem>
               </>
             )
           })}
-      </Projects>
-     </Container>
+      </S.Projects>
+     </S.Container>
       
     </>
   );
