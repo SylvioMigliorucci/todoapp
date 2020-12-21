@@ -3,7 +3,8 @@ import Task from '../../models/Task';
 class ShowTaskByProject {
     async run({project_id}) {
         return  Task.findAll({
-            where: {project_id}
+            where: {project_id},
+            order: [['completed', 'ASC']]
         });
     }
 }
