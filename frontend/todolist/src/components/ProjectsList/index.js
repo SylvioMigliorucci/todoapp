@@ -9,6 +9,7 @@ import apiInstance from '../../services/api'
 import * as S from './styles'
 import Swal from 'sweetalert2'
 import {FiTrash2, FiEdit} from 'react-icons/fi'
+import ErrorBox from '../ErrorBox';
 
 
 function ProjectsList() {
@@ -30,7 +31,8 @@ function ProjectsList() {
         setProjects(response.data);
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
       });
   };
 
@@ -45,7 +47,8 @@ function ProjectsList() {
         e.target.reset();
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
         e.target.reset();
       });
   };
@@ -61,7 +64,7 @@ function ProjectsList() {
       confirmButtonText: 'Edit',
       showLoaderOnConfirm: true,
       preConfirm: (name) => {
-        console.log('a', data.project_id);
+        
         apiInstance.put(`/projects/${data.project_id}`, { name }, {headers: {
           "Content-Type": 'application/json',
           "Authorization": `Bearer ${user.token}` 
@@ -71,7 +74,8 @@ function ProjectsList() {
             setIsUpdate(false);
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error?.response?.data?.error);
+            ErrorBox({msg: error?.response?.data?.error});
           });
       },
       allowOutsideClick: () => !Swal.isLoading()
@@ -99,7 +103,8 @@ function ProjectsList() {
         
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
       });
   }
 

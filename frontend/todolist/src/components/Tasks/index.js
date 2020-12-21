@@ -10,6 +10,7 @@ import ReactTooltip from 'react-tooltip';
 import Swal from 'sweetalert2'
 import { format } from 'date-fns'
 import {FiTrash2, FiEdit} from 'react-icons/fi'
+import ErrorBox from '../ErrorBox';
 
 function Tasks({project_id}) {
   const { register, handleSubmit, watch, errors } = useForm();
@@ -27,7 +28,8 @@ function Tasks({project_id}) {
           setTasks(response.data);
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error?.response?.data?.error);
+          ErrorBox({msg: error?.response?.data?.error});
         });
     
   };
@@ -42,8 +44,8 @@ function Tasks({project_id}) {
         e.target.reset();
       })
       .catch(function (error) {
-        console.log(error);
-        e.target.reset();
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
       });
   };
 
@@ -67,7 +69,8 @@ function Tasks({project_id}) {
             getTasks();
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error?.response?.data?.error);
+            ErrorBox({msg: error?.response?.data?.error});
           });
       },
       allowOutsideClick: () => !Swal.isLoading()
@@ -95,7 +98,8 @@ function Tasks({project_id}) {
         getTasks();
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
       });
   }
 
@@ -109,7 +113,8 @@ function Tasks({project_id}) {
         getTasks();
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
       });
   }
 
@@ -147,8 +152,8 @@ function Tasks({project_id}) {
                   </>
                   ) 
                   : (<label style={{textDecoration: "none"}} data-tip data-for="registerTip" onClick={(e) => completeTask({task_id: task.id, completed: !task.completed})}>{task.description} </label>)}
-                <FiTrash2 onClick={() => onDelete(task.id)} />
-                {task.completed || <FiEdit onClick={() => onUpdate({task_id: task.id, description: task.description })}>Update</FiEdit>}
+                {task.completed || <> <FiTrash2 onClick={() => onDelete(task.id)} />
+                 <FiEdit onClick={() => onUpdate({task_id: task.id, description: task.description })}>Update</FiEdit> </>}
                  {!task.completed || <S.Tooltip>{format(new Date(task.finished_at), 'dd/MM/yyyy HH:mm:ss')}</S.Tooltip>}
               </S.TaskDescription>
             </S.TaskCheckItem>

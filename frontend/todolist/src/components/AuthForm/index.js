@@ -1,29 +1,31 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import axios from 'axios'
 
+import { useCookies } from "react-cookie"
 import { UserContext } from "../../store/UserContext";
 import { useRouter } from 'next/router'
 import apiInstance from '../../services/api'
 import * as S from './styles'
+import ErrorBox from "../ErrorBox";
 
 export default function AuthForm({isRegister = false, buttonFormText="Sign In"}) {
   const { register, handleSubmit, watch, errors } = useForm();
+  const [cookie, setCookie] = useCookies(["user"])
   const { user, setUser } = useContext(UserContext);
   const router = useRouter()
+  
   const onSubmit = data => {
-    console.log(data)
     apiInstance.post('/login', { email: data.email, password: data.password })
       .then(function (response) {
-        console.log('auth', response.data);
-        // localStorage.setItem('token', response.data.token)
-        setUser(response.data);
         
+        localStorage.setItem('token', response.data.token)
+        setUser(response.data);
         router.push('/projects')
         
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
       });
   };
   
@@ -34,7 +36,8 @@ export default function AuthForm({isRegister = false, buttonFormText="Sign In"})
         router.push('/')
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error?.response?.data?.error);
+        ErrorBox({msg: error?.response?.data?.error});
       });
   };
   return (

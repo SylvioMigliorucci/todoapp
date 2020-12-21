@@ -8,7 +8,7 @@ import * as S from './styles'
 function Header() {
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
-  console.log('header token',user)
+  
   return (
     <>
       <S.Wrapper>
@@ -19,22 +19,22 @@ function Header() {
           </S.navItens>
           </Link>
           <S.navItens>
-            {user.token !== "null"  ? (<Link href='/projects'>Projects</Link>) : (<Link href='/register'>Register</Link>) }
+            {user?.token !== "null"  ? (<Link href='/projects'>Projects</Link>) : (<Link href='/register'>Register</Link>) }
           </S.navItens>
         </S.navLeft>
         <S.navRight>
           <S.navItens>
-            <a href="#"> {user.name ? `Hello, ${user.name}`: ""} </a>
+            <a href="#"> {user?.name ? `Hello, ${user.name}`: ""} </a>
           </S.navItens>
-          <S.navItens>
-          {user.token !== "null" ? (
-            <button onClick={() => {
-                router.push('/');
-                localStorage.setItem('token', null)
+          
+          {user?.token !== "null" ? (
+            <S.navItens onClick={() => {
+              localStorage.setItem('token', null)
+              router.push('/');
               }
-            }>Log Out</button>
+            }>Log Out</S.navItens>
           ) : (<> </>) } 
-          </S.navItens>
+         
         </S.navRight>
       </S.Wrapper>
     </>
