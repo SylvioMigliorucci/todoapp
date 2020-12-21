@@ -33,7 +33,8 @@ module.exports = {
       },
       finished_at: {
           type: Sequelize.DATE,
-          allowNull: false,
+          allowNull: true,
+          defaultValue: null
       }
     });
   },

@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from 'axios'
-import {baseURL} from '../../util/index';
+
 import { UserContext } from "../../store/UserContext";
 import { useRouter } from 'next/router'
+import apiInstance from '../../services/api'
 
 export default function AuthForm() {
   const { register, handleSubmit, watch, errors } = useForm();
@@ -11,9 +12,10 @@ export default function AuthForm() {
   const router = useRouter()
   const onSubmit = data => {
     console.log(data)
-    axios.post(baseURL + '/login', { email: data.email, password: data.password })
+    apiInstance.post('/login', { email: data.email, password: data.password })
       .then(function (response) {
-        console.log(response.data.token);
+        console.log('auth', response.data);
+        // localStorage.setItem('token', response.data.token)
         setUser(response.data);
         
         router.push('/projects')

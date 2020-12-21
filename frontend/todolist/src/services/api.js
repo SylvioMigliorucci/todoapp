@@ -1,7 +1,9 @@
 import axios from 'axios'
+import { baseURL } from '../util';
 
-const api = axios.create({
-    baseURL: process.env?.APP_MANIFEST?.extra?.api,
+const apiInstance = axios.create({
+    baseURL,
+    timeout: 60000
     
 })
-export default api;
+export default apiInstance;

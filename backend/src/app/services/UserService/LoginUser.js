@@ -10,7 +10,9 @@ class LoginUser {
         if (!(await user.checkPassword(password)) || !user)
           throw new ServiceError(401, 'Your email or password is incorrect');
 
-        return {token: jwt.sign({
+        return {
+          name: user.name,
+          token: jwt.sign({
           user_id: user.id,
           name: user.name,
           email: user.email,
