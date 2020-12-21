@@ -1,1 +1,0 @@
-yarn sequelize migration:create --name=create-users
