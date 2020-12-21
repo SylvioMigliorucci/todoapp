@@ -1,10 +1,10 @@
-#Overview
+# Overview
 TODO List application build in Node.js, Express, Sequelize and Next.js
 
 
-##Getting Start:
+## Getting Start:
 
-###Backend:
+### Backend:
 
 Change the ```.env-example``` to your MySQL Database credentials and Server PORT:
 ```
@@ -26,7 +26,7 @@ Go to ```backend``` folder:
   
 ```
 
-###Frontend
+### Frontend
 
 Go to ```next.config.js``` file and change de apiPort value with your APP_SERVER_PORT from ```backend```: 
 ```
